@@ -1,0 +1,695 @@
+{
+  "$comment": "This file is managed by Shepherd, see https://schibsted.ghe.com/aftonbladet/shepherd",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "environment": {
+      "$comment": "https://docsv2.convox.com/application/environment",
+      "description": "Environment variables that are available to every service.",
+      "$ref": "#/definitions/environment"
+    },
+    "resources": {
+      "$comment": "https://docsv2.convox.com/application/resources",
+      "type": "object",
+      "description": "Network-accessible resources such as databases that can be made available to services",
+      "additionalProperties": {
+        "required": ["type"],
+        "oneOf": [
+          { "$ref": "#/definitions/resourceMemcached" },
+          { "$ref": "#/definitions/resourceMariadb" },
+          { "$ref": "#/definitions/resourceMysql" },
+          { "$ref": "#/definitions/resourcePostgres" },
+          { "$ref": "#/definitions/resourceRedis" },
+          { "$ref": "#/definitions/resourceEfs" }
+        ]
+      }
+    },
+    "services": {
+      "$comment": "https://docsv2.convox.com/application/services",
+      "type": "object",
+      "description": "A Service is a horizontally-scalable collection of durable Processes.",
+      "additionalProperties": {
+        "$ref": "#/definitions/service"
+      }
+    },
+    "timers": {
+      "$comment": "https://docsv2.convox.com/application/timers https://docs.convox.com/reference/primitives/app/timer/",
+      "type": "object",
+      "description": "A Timer spawns a Process on a schedule that is defined using cron syntax.",
+      "additionalProperties": {
+        "$ref": "#/definitions/timer"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": ["services"],
+  "definitions": {
+    "environment": {
+      "$comment": "https://docsv2.convox.com/application/environment",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "resourceMemcached": {
+      "$comment": "https://docsv2.convox.com/application/resources#memcached",
+      "type": "object",
+      "properties": {
+        "type": { "const": "memcached" },
+        "options": {
+          "type": "object",
+          "properties": {
+            "class": {
+              "anyOf": [
+                { "$ref": "#/definitions/environmentVariableReference" },
+                { "type": "string" }
+              ],
+              "description": "Instance class",
+              "default": "cache.t2.micro"
+            },
+            "nodes": {
+              "description": "Number of nodes",
+              "anyOf": [
+                { "$ref": "#/definitions/environmentVariableReference" },
+                { "type": "integer" }
+              ],
+              "default": 1
+            },
+            "version": {
+              "anyOf": [
+                { "$ref": "#/definitions/environmentVariableReference" },
+                { "type": "string" }
+              ],
+              "description": "Memcached version",
+              "default": "1.4.34"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "required": ["type"],
+      "additionalProperties": false
+    },
+    "resourceMariadb": {
+      "$comment": "https://docsv2.convox.com/application/resources#mariadb",
+      "type": "object",
+      "properties": {
+        "type": { "const": "mariadb" },
+        "options": {
+          "type": "object",
+          "properties": {
+            "class": {
+              "anyOf": [
+                { "$ref": "#/definitions/environmentVariableReference" },
+                { "type": "string" }
+              ],
+              "description": "Instance class",
+              "default": "db.t2.micro"
+            },
+            "encrypted": {
+              "type": "boolean",
+              "description": "Encrypt at rest",
+              "default": false
+            },
+            "durable": {
+              "type": "boolean",
+              "description": "Multi-AZ automatic failover",
+              "default": false
+            },
+            "iops": {
+              "type": "integer",
+              "description": "Provisioned IOPS for database disks"
+            },
+            "storage": {
+              "type": "integer",
+              "description": "GB of storage to provision",
+              "default": 20
+            },
+            "version": {
+              "anyOf": [
+                { "$ref": "#/definitions/environmentVariableReference" },
+                { "type": "string" }
+              ],
+              "description": "MariaDB version",
+              "default": "10.4"
+            },
+            "preferredBackupWindow": {
+              "description": "The daily time range during which automated backups are created if automated backups are enabled, using the `backupRetentionPeriod` option. Must be in the format hh24:mi-hh24:mi.Must be in Universal Coordinated Time (UTC). Must not conflict with the preferred maintenance window. Must be at least 30 minutes.",
+              "type": "string"
+            },
+            "backupRetentionPeriod": {
+              "description": "The number of days for which automated backups are retained. Setting this parameter to a positive number enables backups. Setting this parameter to 0 disables automated backups.",
+              "default": 1,
+              "type": "integer"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "required": ["type"],
+      "additionalProperties": false
+    },
+    "resourceMysql": {
+      "$comment": "https://docsv2.convox.com/application/resources#mysql",
+      "type": "object",
+      "properties": {
+        "type": { "const": "mysql" },
+        "options": {
+          "type": "object",
+          "properties": {
+            "class": {
+              "anyOf": [
+                { "$ref": "#/definitions/environmentVariableReference" },
+                { "type": "string" }
+              ],
+              "description": "Instance class",
+              "default": "db.t2.micro"
+            },
+            "encrypted": {
+              "type": "boolean",
+              "description": "Encrypt at rest",
+              "default": false
+            },
+            "durable": {
+              "type": "boolean",
+              "description": "Multi-AZ automatic failover",
+              "default": false
+            },
+            "iops": {
+              "type": "integer",
+              "description": "Provisioned IOPS for database disks"
+            },
+            "storage": {
+              "type": "integer",
+              "description": "GB of storage to provision",
+              "default": 20
+            },
+            "version": {
+              "anyOf": [
+                { "$ref": "#/definitions/environmentVariableReference" },
+                { "type": "string" }
+              ],
+              "description": "MySQL version",
+              "default": "5.7.22"
+            },
+            "preferredBackupWindow": {
+              "description": "The daily time range during which automated backups are created if automated backups are enabled, using the `backupRetentionPeriod` option. Must be in the format hh24:mi-hh24:mi.Must be in Universal Coordinated Time (UTC). Must not conflict with the preferred maintenance window. Must be at least 30 minutes.",
+              "type": "string"
+            },
+            "backupRetentionPeriod": {
+              "description": "The number of days for which automated backups are retained. Setting this parameter to a positive number enables backups. Setting this parameter to 0 disables automated backups.",
+              "default": 1,
+              "type": "integer"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "required": ["type"],
+      "additionalProperties": false
+    },
+    "resourcePostgres": {
+      "$comment": "https://docsv2.convox.com/application/resources#postgres",
+      "type": "object",
+      "properties": {
+        "type": { "const": "postgres" },
+        "options": {
+          "type": "object",
+          "properties": {
+            "class": {
+              "anyOf": [
+                { "$ref": "#/definitions/environmentVariableReference" },
+                { "type": "string" }
+              ],
+              "description": "Instance class",
+              "default": "db.t2.micro"
+            },
+            "encrypted": {
+              "type": "boolean",
+              "description": "Encrypt at rest",
+              "default": false
+            },
+            "durable": {
+              "type": "boolean",
+              "description": "Multi-AZ automatic failover",
+              "default": false
+            },
+            "iops": {
+              "type": "integer",
+              "description": "Provisioned IOPS for database disks"
+            },
+            "storage": {
+              "type": "integer",
+              "description": "GB of storage to provision",
+              "default": 20
+            },
+            "version": {
+              "anyOf": [
+                { "$ref": "#/definitions/environmentVariableReference" },
+                { "type": "string" }
+              ],
+              "description": "PostgreSQL version",
+              "default": "12"
+            },
+            "preferredBackupWindow": {
+              "description": "The daily time range during which automated backups are created if automated backups are enabled, using the `backupRetentionPeriod` option. Must be in the format hh24:mi-hh24:mi.Must be in Universal Coordinated Time (UTC). Must not conflict with the preferred maintenance window. Must be at least 30 minutes.",
+              "type": "string"
+            },
+            "backupRetentionPeriod": {
+              "description": "The number of days for which automated backups are retained. Setting this parameter to a positive number enables backups. Setting this parameter to 0 disables automated backups.",
+              "default": 1,
+              "type": "integer"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "required": ["type"],
+      "additionalProperties": false
+    },
+    "resourceRedis": {
+      "$comment": "https://docsv2.convox.com/application/resources#redis",
+      "type": "object",
+      "properties": {
+        "type": { "const": "redis" },
+        "options": {
+          "type": "object",
+          "properties": {
+            "class": {
+              "anyOf": [
+                { "$ref": "#/definitions/environmentVariableReference" },
+                { "type": "string" }
+              ],
+              "description": "Instance class",
+              "default": "cache.t2.micro"
+            },
+            "durable": {
+              "type": "boolean",
+              "description": "Multi-AZ automatic failover",
+              "default": false
+            },
+            "encrypted": {
+              "type": "boolean",
+              "description": "Encrypt at rest",
+              "default": false
+            },
+            "nodes": {
+              "description": "Number of nodes",
+              "anyOf": [
+                { "$ref": "#/definitions/environmentVariableReference" },
+                { "type": "integer" }
+              ],
+              "default": 1
+            },
+            "version": {
+              "anyOf": [
+                { "$ref": "#/definitions/environmentVariableReference" },
+                { "type": "string" }
+              ],
+              "description": "Redis version",
+              "default": "2.8.24"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "required": ["type"],
+      "additionalProperties": false
+    },
+    "resourceEfs": {
+      "$comment": "https://docsv2.convox.com/application/resources#efs",
+      "description": "Use to share volumes between the tasks in different AZs and instances.",
+      "type": "object",
+      "properties": {
+        "type": { "const": "efs" },
+        "options": {
+          "type": "object",
+          "properties": {
+            "encrypted": {
+              "type": "boolean",
+              "description": "Encrypt at rest",
+              "default": false
+            },
+            "owner-gid": {
+              "type": "integer",
+              "description": "POSIX group ID to apply to the `path` directory",
+              "default": 1000
+            },
+            "owner-uid": {
+              "type": "integer",
+              "description": "POSIX user ID to apply to the `path` directory",
+              "default": 1000
+            },
+            "path": {
+              "type": "string",
+              "default": "/",
+              "description": "The path on the file system used as the root directory by the services"
+            },
+            "permissions": {
+              "type": "string",
+              "default": "0777",
+              "description": "POSIX permissions to apply to the `path` directory"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "required": ["type"],
+      "additionalProperties": false
+    },
+    "service": {
+      "$comment": "https://docsv2.convox.com/application/services https://docs.convox.com/reference/primitives/app/service/",
+      "type": "object",
+      "properties": {
+        "accessControl": {
+          "$comment": "https://www.convox.com/blog/introducing-aws-eks-pod-identities",
+          "description": "V3 only! Specify the AWS IAM policies required for each service ",
+          "type": "object",
+          "properties": {
+            "awsPodIdentity": {
+              "type": "object",
+              "properties": {
+                "policyArns": {
+                  "type": "array",
+                  "items": { "type": "string" },
+                  "examples": [
+                    "arn:aws:iam::650768188392:policy/service/chat-buddy/pr-${PR_NUMBER}/service-chat-buddy-pr-${PR_NUMBER}"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "agent": {
+          "$comment": "https://docsv2.convox.com/application/services#agent",
+          "description": "Define that this service should start one container on every instance.",
+          "oneOf": [
+            { "type": "boolean" },
+            {
+              "type": "object",
+              "properties": {
+                "enabled": { "type": "boolean" },
+                "ports": { "type": "array", "items": { "type": "string" } }
+              }
+            }
+          ]
+        },
+        "build": {
+          "$comment": "https://docsv2.convox.com/application/services#build https://docs.convox.com/reference/primitives/app/service/#build",
+          "description": "Configuration options that define the build context and Dockerfile used.",
+          "oneOf": [
+            { "$ref": "#/definitions/serviceBuildPath" },
+            {
+              "type": "object",
+              "properties": {
+                "path": { "$ref": "#/definitions/serviceBuildPath" },
+                "manifest": {
+                  "type": "string",
+                  "default": "Dockerfile",
+                  "description": "The filename of the Dockerfile"
+                }
+              }
+            }
+          ]
+        },
+        "command": {
+          "$comment": "https://docsv2.convox.com/application/services#command",
+          "description": "Override the default command for this service.",
+          "type": "string"
+        },
+        "deployment": {
+          "$comment": "https://docsv2.convox.com/deployment/rolling-updates#deployment-configuration",
+          "description": "Rolling updates deployment configuration",
+          "type": "object",
+          "properties": {
+            "minimum": {
+              "description": "Minimum number of healthy processes",
+              "anyOf": [
+                { "type": "integer" },
+                { "$ref": "#/definitions/environmentVariableReference" }
+              ],
+              "default": 50
+            },
+            "maximum": {
+              "description": "Maximum number of overall processes",
+              "anyOf": [
+                { "type": "integer" },
+                { "$ref": "#/definitions/environmentVariableReference" }
+              ],
+              "default": 200
+            }
+          },
+          "required": []
+        },
+        "domain": {
+          "description": "A custom domain(s) (comma separated) to route to this Service",
+          "oneOf": [
+            { "type": "string" },
+            { "type": "array", "items": { "type": "string" } }
+          ]
+        },
+        "drain": {
+          "description": "Specifies the timeout in seconds during which connections are allowed to drain for a service before terminating during a rolling deploy.",
+          "type": "integer"
+        },
+        "environment": {
+          "description": "A list of strings that define the service's environment variables. A pair like `FOO=bar` creates an environment variable named `FOO` with a default value of `bar`. Defining a name without a value like `HOST` will require that variable to be set in the application's environment to deploy successfully. You should not configure secrets here, as they would be recorded in version control. For secrets, simply specify the variable name, then set the actual value using the CLI `convox env set` command. Only environment variables that are listed here will be provided to the service at runtime.",
+          "$ref": "#/definitions/environment"
+        },
+        "health": {
+          "$comment": "https://docsv2.convox.com/application/services#health https://docs.convox.com/reference/primitives/app/service/#health",
+          "description": "Health check definition. Specifying it as a string will set the `path` and leave the other values as defaults.",
+          "oneOf": [
+            { "$ref": "#/definitions/serviceHealthPath" },
+            {
+              "type": "object",
+              "properties": {
+                "grace": {
+                  "type": "integer",
+                  "description": "The number of seconds to wait for a Process to start before starting health checks",
+                  "default": 5
+                },
+                "interval": {
+                  "type": "integer",
+                  "description": "The number of seconds between health checks",
+                  "default": 5
+                },
+                "path": { "$ref": "#/definitions/serviceHealthPath" },
+                "timeout": {
+                  "type": "integer",
+                  "description": "The number of seconds to wait for a successful response",
+                  "default": 4
+                },
+                "disable": {
+                  "type": "boolean",
+                  "description": "To disable the healthcheck",
+                  "default": false
+                }
+              }
+            }
+          ]
+        },
+        "image": {
+          "description": "An external Docker image to use for this Service (supercedes `build`)",
+          "type": "string"
+        },
+        "init": {
+          "description": "Use a Docker-provided pid1 for intracontainer process management.",
+          "type": "boolean"
+        },
+        "internal": {
+          "description": "Flag a service as internal, preventing access to it from outside your VPC.",
+          "default": false,
+          "type": "boolean"
+        },
+        "links": {
+          "description": "Set up links between services on the same app. Adding `web` to the `links` section, this would add a `WEB_URL` environment variable that points to the load balancer of the web service on the same app.",
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "port": {
+          "description": "Defines the port on which an HTTP service is listening.",
+          "type": "integer"
+        },
+        "policies": {
+          "description": "Convox V2 Only. A list of ARN of IAM policies to attach to the service's role. It must be created before the service. It will create a new role dedicated to the service, using only the specified policies. Overrides the App's IamPolicy at the service level.",
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "privileged": {
+          "description": "Enabling this parameter results in the container being granted elevated privileges on the host container instance, similar to the root user. If the privileged parameter is set to true for a service to which a timer is linked, the timer container will also be granted privileged access.",
+          "type": "boolean"
+        },
+        "resources": {
+          "description": "The resources enumerated in the `resources` section that will be available to the service as environment variables. The network endpoint for a resource named `foo` would be `FOO_URL`.",
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "scale": {
+          "$comment": "https://docsv2.convox.com/deployment/scaling",
+          "description": "Set the initial scale parameters for this service.",
+          "type": "object",
+          "properties": {
+            "count": {
+              "description": "Number of processes to run",
+              "anyOf": [
+                { "type": "integer" },
+                { "type": "string", "pattern": "^\\d+-\\d+$" },
+                { "$ref": "#/definitions/environmentVariableReference" }
+              ]
+            },
+            "cpu": {
+              "description": "Initial default CPU units",
+              "anyOf": [
+                { "type": "integer" },
+                { "$ref": "#/definitions/environmentVariableReference" }
+              ]
+            },
+            "memory": {
+              "description": "Initial default memory (MB)",
+              "anyOf": [
+                { "type": "integer" },
+                { "$ref": "#/definitions/environmentVariableReference" }
+              ]
+            },
+            "targets": {
+              "type": "object",
+              "description": "Service-level autoscaling targets",
+              "properties": {
+                "cpu": {
+                  "description": "Average CPU utilization (%) for all processes",
+                  "anyOf": [
+                    { "type": "integer" },
+                    { "$ref": "#/definitions/environmentVariableReference" }
+                  ]
+                },
+                "memory": {
+                  "description": "Average Memory utilization (%) for all processes",
+                  "anyOf": [
+                    { "type": "integer" },
+                    { "$ref": "#/definitions/environmentVariableReference" }
+                  ]
+                },
+                "requests": {
+                  "description": "Requests per minute per process",
+                  "anyOf": [
+                    { "type": "integer" },
+                    { "$ref": "#/definitions/environmentVariableReference" }
+                  ]
+                }
+              },
+              "required": []
+            },
+            "cooldown": {
+              "description": "Cooldown period (in seconds) for your service-level autoscaling if you wish to limit the effects of continuous scaling activity. Once a scale up/down event has happened, a subsequent scaling event (of the same direction) will wait for the expiry of the cooldown period before being actioned. This can help to stop your service over-aggressively scaling up or down.",
+              "default": 60,
+              "oneOf": [
+                { "type": "integer" },
+                {
+                  "type": "object",
+                  "properties": {
+                    "down": { "type": "integer" },
+                    "up": { "type": "integer" }
+                  },
+                  "additionalProperties": false
+                },
+                { "$ref": "#/definitions/environmentVariableReference" }
+              ]
+            },
+            "custom": {
+              "description": "Use custom Cloudwatch metrics as a target for the service autoscaler",
+              "additionalItems": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          },
+          "additionalProperties": false,
+          "required": []
+        },
+        "singleton": {
+          "description": "Controls deployment behavior. When set to true existing containers for this service will be stopped before new containers are deployed.",
+          "type": "boolean"
+        },
+        "sticky": {
+          "description": "Toggle load balancer stickiness (using a cookie to keep a user associated with a single container) which helps some applications maintain consistency during rolling deploys.",
+          "type": "boolean",
+          "default": true
+        },
+        "termination": {
+          "$comment": "https://docs.convox.com/reference/primitives/app/service/#termination",
+          "description": "Sets the grace period after which a container will be forcefully killed if it does not gracefully exit during a shutdown.",
+          "type": "object",
+          "properties": {
+            "grace": {
+              "description": "The number of seconds to wait for Processes to gracefully exit before killing them (in seconds).",
+              "anyOf": [
+                { "type": "integer" },
+                { "$ref": "#/definitions/environmentVariableReference" }
+              ],
+              "default": 30
+            }
+          }
+        },
+        "test": {
+          "$comment": "https://docsv2.convox.com/application/services#test",
+          "description": "Defines a command to be used when running `convox test` against an application.",
+          "type": "string"
+        },
+        "volumes": {
+          "$comment": "https://docsv2.convox.com/application/services#volumes",
+          "description": "Defines a volume to be mounted into the service.",
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "serviceBuildPath": {
+      "description": "A path to use to build this service",
+      "default": ".",
+      "type": "string"
+    },
+    "serviceHealthPath": {
+      "description": "A path to use for health checks",
+      "default": "/",
+      "type": "string"
+    },
+    "timer": {
+      "$comment": "https://docsv2.convox.com/application/timers https://docs.convox.com/reference/primitives/app/timer/",
+      "type": "object",
+      "properties": {
+        "annotaions": {
+          "type": "array",
+          "description": "A list of annotation keys and values to populate the metadata for the deployed pods and their serviceaccounts. Only supported in version 3 racks.",
+          "items": { "type": "string" }
+        },
+        "command": {
+          "type": "string",
+          "description": "The command to execute once the Process starts"
+        },
+        "schedule": {
+          "type": "string",
+          "description": "A cron formatted schedule for spawning the Process. All times are UTC"
+        },
+        "service": {
+          "type": "string",
+          "description": "The name of the Service that will be used to spawn the Process"
+        },
+        "concurrency": {
+          "type": "string",
+          "description": "It specifies how to treat concurrent executions of a job that is created by this cron job. Only supported in version 3 racks.",
+          "default": "Allow",
+          "enum": ["Allow", "Forbid", "Replace"]
+        }
+      },
+      "required": ["command", "schedule", "service"],
+      "additionalProperties": false
+    },
+    "environmentVariableReference": {
+      "type": "string",
+      "pattern": "^\\$\\{[a-zA-Z0-9_]+\\}$"
+    }
+  }
+}

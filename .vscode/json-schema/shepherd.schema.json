@@ -1,0 +1,66 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "convox": {
+      "type": "object",
+      "properties": {
+        "app": {
+          "type": "string",
+          "description": "Convox app name"
+        },
+        "racks": {
+          "type": "object",
+          "description": "Convox rack names",
+          "properties": {
+            "dev": {
+              "type": "string",
+              "default": "ab/dev-pub"
+            },
+            "pro": {
+              "type": "string",
+              "default": "ab/pro-pub"
+            },
+            "review": {
+              "type": "string",
+              "default": "ab/review"
+            }
+          }
+        },
+        "reviewApps": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": true
+            },
+            "environmentVariables": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "template": {
+              "type": "string",
+              "description": "Convox app to copy environment variables from to review apps",
+              "default": "ab/pro-pub/{{app}}"
+            },
+            "additionalReviewUrls": {
+              "type": "string",
+              "description": "Template for additional review app URLs to be posted to PR comments. Uses placeholder to fill in the PR number. Example: `ab:debug?irisURL=https://iris-pr-{0}.review.service.aftonbladet.se`",
+              "default": ""
+            }
+          }
+        },
+        "scripts": {
+          "type": "object",
+          "properties": {
+            "afterDeploy": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

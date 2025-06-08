@@ -1,0 +1,50 @@
+{
+	"//": "This file is managed by Shepherd, see https://schibsted.ghe.com/aftonbladet/shepherd",
+	"[css]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[javascript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode",
+		"editor.wordWrap": "off"
+	},
+	"[json]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[markdown]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode",
+		"editor.wordWrap": "wordWrapColumn"
+	},
+	"[svelte]": {
+		"editor.defaultFormatter": "svelte.svelte-vscode"
+	},
+	"[typescript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode",
+		"editor.wordWrap": "off"
+	},
+	"[typescriptreact]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode",
+		"editor.wordWrap": "off"
+	},
+	"[yaml]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"breadcrumbs.enabled": true,
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": "explicit"
+	},
+	"editor.formatOnSave": true,
+	"editor.formatOnSaveTimeout": 750,
+	"editor.rulers": [100],
+	"editor.wordWrap": "wordWrapColumn",
+	"editor.wordWrapColumn": 100,
+	"files.watcherExclude": {
+		"**/build/**": true
+	},
+	"git.inputValidationLength": 500,
+	"git.inputValidationSubjectLength": 72,
+	"github-actions.use-enterprise": true,
+	"json.format.enable": false,
+	"typescript.tsdk": "node_modules/typescript/lib",
+	"redhat.telemetry.enabled": false,
+	"yaml.format.enable": false
+}

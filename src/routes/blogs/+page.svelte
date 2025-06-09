@@ -47,7 +47,7 @@
 				</ArticleBody>
 				<ArticleAuthor>
 					<a
-						href="/blog/one"
+						href="/blog/{blog.id}"
 						class="text-primary-600 dark:text-primary-500 inline-flex items-center font-medium hover:underline"
 					>
 						Read more

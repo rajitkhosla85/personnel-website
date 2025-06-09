@@ -10,3 +10,4 @@ export const GET: RequestHandler = async () => {
 		return json({ success: false }, { status: 500 });
 	}
 };
+export const prerender = true;

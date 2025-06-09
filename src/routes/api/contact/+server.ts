@@ -18,3 +18,4 @@ export const POST: RequestHandler = async ({ request }) => {
 		return json({ success: false }, { status: 500 });
 	}
 };
+export const prerender = false;

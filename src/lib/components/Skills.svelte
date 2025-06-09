@@ -35,70 +35,61 @@
 </script>
 
 <div class="item-stretch grid h-full w-full gap-7 sm:grid-cols-2">
-	<Animate variant="left" duration={2} delay={0.5}>
-		<Card
-			class="flex h-full flex-col rounded-2xl border border-amber-500 p-4 transition-transform hover:scale-105 hover:shadow-lg sm:p-6 md:p-8"
-		>
-			<h5 class="mb-2 text-2xl font-bold tracking-tight text-amber-900 dark:text-white">
-				Frontend
-			</h5>
-			<div class="grid grid-cols-3 gap-2 text-3xl sm:text-6xl">
-				<Skill text="React" IconComponent={ReactWordmark} />
-				<Skill text="Redux" IconComponent={Redux} />
-				<Skill text="Svelte" IconComponent={Svelte} />
-				<Skill text="Javascript" IconComponent={Javascript} />
-				<Skill text="Typescript" IconComponent={Typescript} />
-				<Skill text="Css3" IconComponent={Css3} />
-				<Skill text="Material Ui" IconComponent={Materialui} />
-				<Skill text="Tailwindcss" IconComponent={Tailwindcss} />
-				<Skill text="Html5" IconComponent={Html5} />
-			</div>
-		</Card>
-	</Animate>
-	<Animate variant="right" duration={2} delay={0.5}>
-		<Card
-			class="flex h-full flex-col rounded-2xl border border-amber-500 p-4 transition-transform hover:scale-105 hover:shadow-lg sm:p-6 md:p-8"
-		>
-			<h5 class="mb-2 text-2xl font-bold tracking-tight text-amber-900 dark:text-white">Backend</h5>
-			<div class="grid grid-cols-3 gap-2 text-3xl sm:text-6xl">
-				<Skill text="Nodejs" IconComponent={Nodejs} />
-				<Skill text="Java" IconComponent={Java} />
-				<Skill text="Python" IconComponent={PythonWordmark} />
-				<Skill text="Typescript" IconComponent={Typescript} />
-				<Skill text="Expressjs" IconComponent={ExpressWordmark} />
-				<Skill text="Nextjs" IconComponent={NextjsWordmark} />
-				<!-- svletekit-->
-				<!-- koa -->
-			</div>
-		</Card>
-	</Animate>
-	<Animate variant="left" duration={2} delay={0.5}>
-		<Card
-			class="flex h-full flex-col rounded-2xl border border-amber-500 p-4 transition-transform hover:scale-105 hover:shadow-lg sm:p-6 md:p-8"
-		>
-			<h5 class="mb-2 text-2xl font-bold tracking-tight text-amber-900 dark:text-white">
-				Databases
-			</h5>
-			<div class="grid grid-cols-3 gap-2 text-3xl sm:text-6xl">
-				<Skill text="Mysql" IconComponent={MysqlWordmark} />
-				<Skill text="Oracle" IconComponent={Oracle} />
-				<Skill text="Postgresql" IconComponent={PostgresqlWordmark} />
-				<Skill text="Mongodb" IconComponent={Mongodb} />
-				<Skill text="Dynamodb" IconComponent={Dynamodb} />
-			</div>
-		</Card>
-	</Animate>
-	<Animate variant="right" duration={2} delay={0.5}>
-		<Card
-			class="flex h-full flex-col rounded-2xl border border-amber-500 p-4 transition-transform hover:scale-105 hover:shadow-lg sm:p-6 md:p-8"
-		>
-			<h5 class="mb-2 text-2xl font-bold tracking-tight text-amber-900 dark:text-white">Cloud</h5>
-			<div class="grid grid-cols-3 gap-2 text-3xl sm:text-6xl">
-				<Skill text="AWS" IconComponent={AmazonwebservicesWordmark} />
-				<Skill text="Azure" IconComponent={Azure} />
-			</div>
-		</Card>
-	</Animate>
+	<Card
+		class="flex h-full flex-col rounded-2xl border border-amber-500 p-4 transition-transform hover:scale-105 hover:shadow-lg sm:p-6 md:p-8"
+	>
+		<h5 class="mb-2 text-2xl font-bold tracking-tight text-amber-900 dark:text-white">Frontend</h5>
+		<div class="grid grid-cols-3 gap-2 text-3xl sm:text-6xl">
+			<Skill text="React" IconComponent={ReactWordmark} />
+			<Skill text="Redux" IconComponent={Redux} />
+			<Skill text="Svelte" IconComponent={Svelte} />
+			<Skill text="Javascript" IconComponent={Javascript} />
+			<Skill text="Typescript" IconComponent={Typescript} />
+			<Skill text="Css3" IconComponent={Css3} />
+			<Skill text="Material Ui" IconComponent={Materialui} />
+			<Skill text="Tailwindcss" IconComponent={Tailwindcss} />
+			<Skill text="Html5" IconComponent={Html5} />
+		</div>
+	</Card>
+
+	<Card
+		class="flex h-full flex-col rounded-2xl border border-amber-500 p-4 transition-transform hover:scale-105 hover:shadow-lg sm:p-6 md:p-8"
+	>
+		<h5 class="mb-2 text-2xl font-bold tracking-tight text-amber-900 dark:text-white">Backend</h5>
+		<div class="grid grid-cols-3 gap-2 text-3xl sm:text-6xl">
+			<Skill text="Nodejs" IconComponent={Nodejs} />
+			<Skill text="Java" IconComponent={Java} />
+			<Skill text="Python" IconComponent={PythonWordmark} />
+			<Skill text="Typescript" IconComponent={Typescript} />
+			<Skill text="Expressjs" IconComponent={ExpressWordmark} />
+			<Skill text="Nextjs" IconComponent={NextjsWordmark} />
+			<!-- svletekit-->
+			<!-- koa -->
+		</div>
+	</Card>
+
+	<Card
+		class="flex h-full flex-col rounded-2xl border border-amber-500 p-4 transition-transform hover:scale-105 hover:shadow-lg sm:p-6 md:p-8"
+	>
+		<h5 class="mb-2 text-2xl font-bold tracking-tight text-amber-900 dark:text-white">Databases</h5>
+		<div class="grid grid-cols-3 gap-2 text-3xl sm:text-6xl">
+			<Skill text="Mysql" IconComponent={MysqlWordmark} />
+			<Skill text="Oracle" IconComponent={Oracle} />
+			<Skill text="Postgresql" IconComponent={PostgresqlWordmark} />
+			<Skill text="Mongodb" IconComponent={Mongodb} />
+			<Skill text="Dynamodb" IconComponent={Dynamodb} />
+		</div>
+	</Card>
+
+	<Card
+		class="flex h-full flex-col rounded-2xl border border-amber-500 p-4 transition-transform hover:scale-105 hover:shadow-lg sm:p-6 md:p-8"
+	>
+		<h5 class="mb-2 text-2xl font-bold tracking-tight text-amber-900 dark:text-white">Cloud</h5>
+		<div class="grid grid-cols-3 gap-2 text-3xl sm:text-6xl">
+			<Skill text="AWS" IconComponent={AmazonwebservicesWordmark} />
+			<Skill text="Azure" IconComponent={Azure} />
+		</div>
+	</Card>
 </div>
 
 <style>

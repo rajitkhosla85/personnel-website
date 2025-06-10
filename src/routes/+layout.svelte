@@ -16,7 +16,17 @@
 	import type { PageData } from './$types';
 	import ContactModal from '$lib/components/ContactModal.svelte';
 
-	let { children, data }: { data: PageData; children: any } = $props();
+	let { children }: { data: PageData; children: any } = $props();
+	type Nav = {
+		displayName: string;
+		path: string;
+	};
+	const navs: Array<Nav> = [
+		{ displayName: 'HOME', path: 'home' },
+		{ displayName: 'PROJECTS', path: 'projects' },
+		{ displayName: 'BLOGS', path: 'blogs' }
+	];
+	const data = { navs };
 	console.log('data', data);
 	let openContact = $state(false);
 </script>

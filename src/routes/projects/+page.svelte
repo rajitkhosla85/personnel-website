@@ -2,10 +2,10 @@
 	import { BlogHead } from 'flowbite-svelte-blocks';
 	const projects = [
 		{
-			name: 'My Serverless Staic Website',
+			name: 'My Serverless Static Website',
 			link: 'https://github.com/rajitkhosla85/books-marketplace',
 			description:
-				'Its a project which is built by using sveltekit and flowbite to create an personnel website'
+				'Its a project which is built by using sveltekit and flowbite to create an personnel website. It is hosted on netlify'
 		},
 		{
 			name: 'Books Marketplace',

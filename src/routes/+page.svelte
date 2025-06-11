@@ -1,8 +1,7 @@
 <script>
-	import Intro from '$lib/components/Intro.svelte';
-	import { P } from 'flowbite-svelte';
+	import MainPage from '$lib/components/MainPage.svelte';
 </script>
 
 <div class="p-8">
-	<Intro />
+	<MainPage />
 </div>

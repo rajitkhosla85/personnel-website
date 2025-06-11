@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Animate from '$lib/components/Animate.svelte';
 	import { BlogHead } from 'flowbite-svelte-blocks';
 	const projects = [
 		{
@@ -34,18 +35,20 @@
 	</BlogHead>
 
 	{#each projects as project}
-		<a
-			href={project.link}
-			target="_blank"
-			rel="noopener noreferrer"
-			class="fon text-xl font-semibold text-amber-600"
-		>
-			<div
-				class="mb-6 rounded-2xl border border-amber-600 p-6 transition-shadow duration-200 hover:shadow-lg"
+		<Animate variant="fade" duration={2} delay={0}>
+			<a
+				href={project.link}
+				target="_blank"
+				rel="noopener noreferrer"
+				class="fon text-xl font-semibold text-amber-600"
 			>
-				{project.name}
-				<p class="mt-2 leading-relaxed text-gray-700">{project.description}</p>
-			</div>
-		</a>
+				<div
+					class="mb-6 rounded-2xl border border-amber-600 p-6 transition-shadow duration-200 hover:shadow-lg"
+				>
+					{project.name}
+					<p class="mt-2 leading-relaxed text-gray-700">{project.description}</p>
+				</div>
+			</a>
+		</Animate>
 	{/each}
 </div>

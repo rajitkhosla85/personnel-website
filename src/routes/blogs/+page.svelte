@@ -39,9 +39,7 @@
 					{#snippet h2()}<a href="/blog/{blog.id}">{blog.title}</a>{/snippet}
 					{#snippet paragraph()}
 						<p class="mb-5 font-light text-gray-500 dark:text-gray-400">
-							Static websites are now used to bootstrap lots of websites and are becoming the basis
-							for a variety of tools that even influence both web designers and developers influence
-							both web designers and developers.
+							{blog.lead}
 						</p>
 					{/snippet}
 				</ArticleBody>

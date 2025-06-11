@@ -15,11 +15,61 @@
 	import '../app.css';
 	import type { PageData } from './$types';
 	import ContactModal from '$lib/components/ContactModal.svelte';
+	import { Collapse } from 'flowbite';
+	import { onMount } from 'svelte';
+	import type { CollapseOptions, CollapseInterface } from 'flowbite';
+	import type { InstanceOptions } from 'flowbite';
 
 	let { children, data }: { data: PageData; children: any } = $props();
 
 	console.log('data', data);
 	let openContact = $state(false);
+	let collapse: CollapseInterface;
+	let hideNavMenu = $state(false);
+	onMount(() => {
+		// set the target element that will be collapsed or expanded (eg. navbar menu)
+		const targetEl = document.getElementById('targetEl');
+
+		// optionally set a trigger element (eg. a button, hamburger icon)
+		const triggerEl = document.getElementById('triggerEl');
+
+		// optional options with default values and callback functions
+		const options: CollapseOptions = {
+			onCollapse: () => {
+				console.log('element has been collapsed');
+			},
+			onExpand: () => {
+				console.log('element has been expanded');
+			},
+			onToggle: () => {
+				console.log('element has been toggled');
+			}
+		};
+
+		const instanceOptions: InstanceOptions = {
+			id: 'targetEl',
+			override: true
+		};
+
+		/*
+		 * $targetEl: required
+		 * $triggerEl: optional
+		 * options: optional
+		 */
+		collapse = new Collapse(targetEl, triggerEl, options, instanceOptions);
+	});
+	const onClickNavUL = () => {
+		collapse.collapse();
+		hideNavMenu = true;
+	};
+	const onNavHamburgerClick = () => {
+		collapse.expand();
+		//toggleFn();
+		console.log('onNavHamburgerClick', hideNavMenu);
+		if (hideNavMenu) {
+			hideNavMenu = false;
+		}
+	};
 </script>
 
 <svelte:head><title>Rajit Khosla</title></svelte:head>
@@ -32,10 +82,10 @@
 					From pixels to live products
 				</span>
 			</NavBrand>
-			<NavHamburger />
-			<NavUl>
+			<NavHamburger onclick={onNavHamburgerClick} />
+			<NavUl id="targetEl">
 				{#each data.navs as nav}
-					<NavLi href="/{nav.path}">{nav.displayName}</NavLi>
+					<NavLi onclick={() => onClickNavUL()} href="/{nav.path}">{nav.displayName}</NavLi>
 				{/each}
 			</NavUl>
 		</Navbar>

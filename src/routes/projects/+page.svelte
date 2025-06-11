@@ -28,11 +28,6 @@
 	];
 </script>
 
-<svelte:head>
-	<title>Projects</title>
-	<meta name="Projects" content="Github projects created by Rajit Khosla" />
-</svelte:head>
-
 <div class="mx-auto max-w-3xl px-4 py-8 font-sans">
 	<BlogHead>
 		{#snippet h2()}My Projects{/snippet}

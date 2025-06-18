@@ -1,6 +1,10 @@
 <script lang="ts">
+	import ContactModal from '$lib/components/ContactModal.svelte';
 	import logo from '$lib/images/logo.jpg';
+	import type { CollapseInterface, CollapseOptions, InstanceOptions } from 'flowbite';
+	import { Collapse } from 'flowbite';
 	import {
+		DarkMode,
 		Footer,
 		FooterCopyright,
 		FooterLink,
@@ -11,14 +15,10 @@
 		NavLi,
 		NavUl
 	} from 'flowbite-svelte';
-	import { LinkedinSolid, GithubSolid } from 'flowbite-svelte-icons';
+	import { GithubSolid, LinkedinSolid } from 'flowbite-svelte-icons';
+	import { onMount } from 'svelte';
 	import '../app.css';
 	import type { PageData } from './$types';
-	import ContactModal from '$lib/components/ContactModal.svelte';
-	import { Collapse } from 'flowbite';
-	import { onMount } from 'svelte';
-	import type { CollapseOptions, CollapseInterface } from 'flowbite';
-	import type { InstanceOptions } from 'flowbite';
 
 	let { children, data }: { data: PageData; children: any } = $props();
 
@@ -73,9 +73,9 @@
 </script>
 
 <svelte:head><title>Rajit Khosla</title></svelte:head>
-<div class="app">
-	<header>
-		<Navbar class="start-0 top-0 z-20 w-full px-2 py-2.5 sm:px-4">
+<div class="app dark:bg-gray-900 dark:text-gray-100">
+	<header class="dark:bg-gray-800">
+		<Navbar class="start-0 top-0 z-20 w-full px-2 py-2.5 sm:px-4" closeOnClickOutside={true}>
 			<NavBrand href="/">
 				<img src={logo} class="me-3 h-8 sm:h-9" alt="Rajit Khosla" />
 				<span class="text-l self-center font-semibold whitespace-nowrap dark:text-white">
@@ -85,8 +85,19 @@
 			<NavHamburger onclick={onNavHamburgerClick} />
 			<NavUl id="targetEl">
 				{#each data.navs as nav}
-					<NavLi onclick={() => onClickNavUL()} href="/{nav.path}">{nav.displayName}</NavLi>
+					<NavLi onclick={onClickNavUL} href="/{nav.path}">{nav.displayName}</NavLi>
 				{/each}
+
+				<DarkMode
+					class="hover:text-primary-500 md:hover:text-primary-700 block rounded-sm py-2  pe-4  text-left text-gray-700 hover:bg-gray-100 md:border-0 md:hover:bg-transparent dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:md:text-white md:dark:hover:bg-transparent md:dark:hover:text-white"
+				>
+					{#snippet lightIcon()}
+						LIGHT MODE
+					{/snippet}
+					{#snippet darkIcon()}
+						DARK MODE
+					{/snippet}
+				</DarkMode>
 			</NavUl>
 		</Navbar>
 	</header>

@@ -37,20 +37,33 @@
 	<Animate variant="fade" duration={2} delay={0.2}>
 		<section class="px-4 py-12 text-center">
 			<h2 class="mb-2 text-4xl font-extrabold sm:text-5xl">Hi, I'm Rajit Khosla</h2>
-			<p class="text-lg sm:text-xl">Senior Software Engineer | Svelte Enthusiast</p>
+			<p class="text-lg sm:text-xl">Software Engineer | Technocrat</p>
 			<p class="sm:text-l text-lg">
 				Hi I am Rajit Khosla working at Schibsted having an experience of 18 years. I am learner,
 				creator and like to have fun working environment
 			</p>
 			<div class="mt-6 flex flex-col justify-center gap-4 sm:flex-row">
-				<a href="/projects" class="rounded-full bg-amber-500 px-6 py-2 text-white">View Projects</a>
-				<button
-					class="rounded-full border border-amber-500 px-6 py-2 text-amber-500"
-					onclick={() => {
+				<a href="/projects" class="rounded-full bg-amber-500 px-6 py-2 text-white sm:w-full">
+					View Projects</a
+				>
+
+				<a
+					href="/blogs"
+					class="inline-block rounded-full border border-amber-500 px-6 py-2 text-amber-500 sm:w-full"
+				>
+					View Blogs
+				</a>
+
+				<a
+					href="/"
+					class="rounded-full bg-amber-500 px-6 py-2 text-white sm:w-full"
+					onclick={(event) => {
+						event.preventDefault();
 						openContact = true;
 					}}
-					>Contact Me
-				</button>
+				>
+					Contact Me
+				</a>
 				<ContactModal bind:open={openContact} />
 			</div>
 		</section>

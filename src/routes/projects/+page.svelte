@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Animate from '$lib/components/Animate.svelte';
 	import { BlogHead } from 'flowbite-svelte-blocks';
+	import { GithubSolid } from 'flowbite-svelte-icons';
 	const projects = [
 		{
 			name: 'My Serverless Static Website',
@@ -40,13 +41,20 @@
 				href={project.link}
 				target="_blank"
 				rel="noopener noreferrer"
-				class="fon text-xl font-semibold text-amber-600"
+				class="font text-xl font-semibold text-amber-600 dark:bg-gray-900 dark:text-gray-100"
 			>
 				<div
 					class="mb-6 rounded-2xl border border-amber-600 p-6 transition-shadow duration-200 hover:shadow-lg"
 				>
-					{project.name}
-					<p class="mt-2 leading-relaxed text-gray-700">{project.description}</p>
+					<div class="mb-2 flex items-center justify-between">
+						<div class="underline">
+							{project.name}
+						</div>
+						<div class="text-primary-600 dark:text-primary-500 font-medium hover:underline">
+							<GithubSolid size="sm" />
+						</div>
+					</div>
+					<p class="mt-2 leading-relaxed text-gray-700 dark:text-gray-400">{project.description}</p>
 				</div>
 			</a>
 		</Animate>

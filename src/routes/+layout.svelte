@@ -72,7 +72,13 @@
 	};
 </script>
 
-<svelte:head><title>Rajit Khosla</title></svelte:head>
+<svelte:head>
+	<title>Rajit Khosla</title>
+	<meta
+		name="description"
+		content="This is the page which contains information about me , my project and my blogs"
+	/>
+</svelte:head>
 <div class="app dark:bg-gray-900 dark:text-gray-100">
 	<header class="dark:bg-gray-800">
 		<Navbar class="start-0 top-0 z-20 w-full px-2 py-2.5 sm:px-4" closeOnClickOutside={true}>

@@ -11,8 +11,8 @@
 	import { VideoCameraSolid, ArrowRightOutline, NewspaperSolid } from 'flowbite-svelte-icons';
 	const { data } = $props();
 	const calculateDateDifferenceFromISODate = (isoDate: string) => {
-		const date = new Date(isoDate).getMilliseconds();
-		const now = new Date().getMilliseconds();
+		const date = new Date(isoDate).getTime();
+		const now = new Date().getTime();
 		const diffTime = Math.abs(now - date);
 		const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 		return diffDays > 1 ? `${diffDays} Days ago` : `${diffDays} Day ago`;

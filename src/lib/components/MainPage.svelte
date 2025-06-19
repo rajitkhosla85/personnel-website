@@ -35,13 +35,28 @@
 		</header>
 	</Animate>
 	<Animate variant="fade" duration={2} delay={0.2}>
-		<section class="px-4 py-12 text-center">
-			<h2 class="mb-2 text-4xl font-extrabold sm:text-5xl">Hi, I'm Rajit Khosla</h2>
-			<p class="text-lg sm:text-xl">Software Engineer | Technocrat</p>
-			<p class="sm:text-l text-lg">
-				Hi I am Rajit Khosla working at Schibsted having an experience of 18 years. I am learner,
-				creator and like to have fun working environment
+		<section class="px-4 py-12 text-center text-lg sm:text-xl">
+			<h2>About Me</h2>
+			<p class="p-2">
+				I am a seasoned IT professional with over <strong>18 years</strong> of diverse experience in
+				the software industry, currently working as a
+				<strong>Software Engineer at Schibsted</strong>. Over the years, I have taken on a variety
+				of roles including <strong>Solution Architect</strong>, <strong>Technical Lead</strong>, and
+				<strong>Software Developer</strong>, delivering robust, scalable, and high-performance
+				solutions across different domains.
 			</p>
+			<p class="p-2">
+				My experience spans a wide range of technologies, development methodologies, and system
+				architectures. I’m passionate about <em>clean code</em>, <em>system design</em>, and driving
+				<em>technical excellence</em>. I take pride in being both a hands-on developer and a
+				strategic thinker who connects business needs with effective technical solutions.
+			</p>
+			<p class="p-2">
+				Outside of work, I enjoy learning and playing tennis and staying up to date with the latest
+				in technology. Whether it’s exploring new frameworks, experimenting with tools, or reading
+				about system architecture, <em>continuous learning</em> is at the heart of what I do.
+			</p>
+			<p class="p-2">You can have a look at below personnel projects and blogs</p>
 			<div class="mt-6 flex flex-col justify-center gap-4 sm:flex-row">
 				<a href="/projects" class="rounded-full bg-amber-500 px-6 py-2 text-white sm:w-full">
 					View Projects</a

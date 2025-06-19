@@ -3,7 +3,7 @@ import img1 from '$lib/images/certifications/aws.webp';
 
 const author: Author = {
 	name: 'Rajit Khosla',
-	profilePicture: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+	profilePicture: 'https://rk-personel-website-images.s3.eu-north-1.amazonaws.com/authorimage.png',
 	href: '/',
 	title: 'Senior Software Engineer'
 };
@@ -14,8 +14,8 @@ export const Blogs: BlogsType = [
 		title: 'How to write serverless static personnal website using Sveltekit and Netlify',
 		lead: 'Welcome to the behind-the-scenes look at how my personal static website is built!. In this post, I wlll walk you through the tech stack, UI toolkit, deployment setup, and share a simple architecture diagram that ties it all together.',
 		author: { ...author },
-		date: 'Jun. 6, 2025',
-		isoDate: '2025-06-06',
+		date: 'Jun. 16, 2025',
+		isoDate: '2025-06-16',
 		content: `
 		  <div class="pt-7">
 			
@@ -35,7 +35,8 @@ export const Blogs: BlogsType = [
 			  <p class="text-lg ">The website is hosted on <a href="https://netlify.com" class="text-blue-600 hover:underline">Netlify</a> with:</p>
 			  <ul class="list-disc pl-6 mt-4 ">
 				<li>Static deployment for SvelteKit-generated pages.</li>
-				<li>Netlify Functions for dynamic backend features (like form submissions or contact API).</li>
+				<li>As soon as we commit to the github the netlfy build pipeline got triggered resulting in to deploying the new version of the application .</li>
+				<li>We are using Netlify Functions for dynamic backend features (like contact API) which is hosted on serverless AWS Lambda.</li>
 			  </ul>
 			</section>
 		
@@ -50,8 +51,8 @@ export const Blogs: BlogsType = [
 			  <ul class="list-disc pl-6 mt-4 ">
 				<li><strong>Responsive Design:</strong> Fully mobile-friendly UI using Tailwind breakpoints.</li>
 				<li><strong>Dark Mode:</strong> Powered by Flowbite’s built-in theme toggler.</li>
-				<li><strong>SEO Optimized:</strong> Meta tags via <code>svelte:head</code> and sitemap.xml.</li>
-				<li><strong>Custom Components:</strong> Built reusable Svelte components for skills, experience timeline, and project showcases.</li>
+				<li><strong>SEO Optimized:</strong> Meta tags via <code>svelte:head</code>.</li>
+				<li><strong>Custom Components:</strong> Built reusable Svelte components for skills, cerificates,blogs and projects.</li>
 			  </ul>
 			</section>
 		
@@ -69,7 +70,7 @@ return {
 statusCode: 200,
 body: JSON.stringify({ success: true, message: "Thanks for reaching out!" })
  };
-	}
+}
 		</code>
 			  </pre>
 			</section>

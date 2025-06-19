@@ -8,6 +8,6 @@
 	<article
 		class="format format-sm sm:format-base lg:format-lg format-blue dark:format-invert mx-auto w-full max-w-2xl"
 	>
-		<BlogTemplate {blog} />
+		<BlogTemplate {blog} authorClass="w-8 h-8 abc" />
 	</article>
 </Section>

@@ -5,7 +5,7 @@
 	const projects = [
 		{
 			name: 'My Serverless Static Website',
-			link: 'https://github.com/rajitkhosla85/books-marketplace',
+			link: 'https://github.com/rajitkhosla85/personnel-website',
 			description:
 				'Its a project which is built by using sveltekit and flowbite to create an personnel website. It is hosted on netlify'
 		},

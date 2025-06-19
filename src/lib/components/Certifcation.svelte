@@ -8,6 +8,12 @@
 
 	const certifications = [
 		{
+			src: ckad,
+			alt: 'Certified Kubernetes Application Developer',
+			label: 'Kubernetes',
+			badge: 'Certified Kubernetes Application Developer'
+		},
+		{
 			src: aws,
 			alt: 'AWS Solution Architect Associate',
 			label: 'AWS',
@@ -18,12 +24,6 @@
 			alt: 'Azure Fundamentals',
 			label: 'Azure',
 			badge: 'Azure Fundamentals'
-		},
-		{
-			src: ckad,
-			alt: 'Certified Kubernetes Application Developer',
-			label: 'Kubernetes',
-			badge: 'Certified Kubernetes Application Developer'
 		},
 		{
 			src: safe4,

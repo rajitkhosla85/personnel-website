@@ -31,13 +31,13 @@
 >
 	<Animate variant="fade" duration={1} delay={0}>
 		<header class="flex flex-col items-center justify-between gap-4 py-4 sm:flex-row sm:gap-0">
-			<h1 class="text-center text-2xl font-bold sm:text-left">Rajit Khosla</h1>
+			<h1 class="text-center text-2xl font-extrabold">Rajit Khosla</h1>
 		</header>
 	</Animate>
 	<Animate variant="fade" duration={2} delay={0.2}>
-		<section class="px-4 py-12 text-center text-lg sm:text-xl">
-			<h2>About Me</h2>
-			<p class="p-2">
+		<section class="px-4 py-6 text-left text-lg sm:text-xl">
+			<h3 class="pb-2 text-center text-xl font-extrabold">About Me</h3>
+			<p>
 				I am a seasoned IT professional with over <strong>18 years</strong> of diverse experience in
 				the software industry, currently working as a
 				<strong>Software Engineer at Schibsted</strong>. Over the years, I have taken on a variety
@@ -45,19 +45,19 @@
 				<strong>Software Developer</strong>, delivering robust, scalable, and high-performance
 				solutions across different domains.
 			</p>
-			<p class="p-2">
+			<p class="pt-2">
 				My experience spans a wide range of technologies, development methodologies, and system
 				architectures. I’m passionate about <em>clean code</em>, <em>system design</em>, and driving
 				<em>technical excellence</em>. I take pride in being both a hands-on developer and a
 				strategic thinker who connects business needs with effective technical solutions.
 			</p>
-			<p class="p-2">
+			<p class="pt-2">
 				Outside of work, I enjoy learning and playing tennis and staying up to date with the latest
 				in technology. Whether it’s exploring new frameworks, experimenting with tools, or reading
 				about system architecture, <em>continuous learning</em> is at the heart of what I do.
 			</p>
-			<p class="p-2">You can have a look at below personnel projects and blogs</p>
-			<div class="mt-6 flex flex-col justify-center gap-4 sm:flex-row">
+			<p class="pt-2">You can have a look at below personnel projects and blogs-</p>
+			<div class="mt-6 flex flex-col justify-center gap-4 text-center sm:flex-row">
 				<a href="/projects" class="rounded-full bg-amber-500 px-6 py-2 text-white sm:w-full">
 					View Projects</a
 				>

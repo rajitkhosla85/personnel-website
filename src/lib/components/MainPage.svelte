@@ -76,13 +76,12 @@
 
 				<button
 					class="rounded-full bg-amber-500 px-6 py-2 text-white sm:w-full"
-					on:click={() => (openContact = true)}
+					onclick={() => (openContact = true)}
 				>
 					Contact Me
 				</button>
-
-				<ContactModal bind:open={openContact} />
 			</div>
+			<ContactModal bind:open={openContact} />
 		</section>
 	</Animate>
 

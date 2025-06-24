@@ -35,32 +35,37 @@
 		</header>
 	</Animate>
 	<Animate variant="fade" duration={2} delay={0.2}>
-		<section class="px-4 py-6 text-left text-lg sm:text-xl">
-			<h3 class="pb-2 text-center text-xl font-extrabold">About Me</h3>
+		<section class="px-4 py-6 text-left text-lg sm:text-xl" aria-labelledby="about-me-heading">
+			<h3 id="about-me-heading" class="pb-2 text-center text-xl font-extrabold">About Me</h3>
 			<p>
-				I am a seasoned IT professional with over <strong>18 years</strong> of diverse experience in
-				the software industry, currently working as a
-				<strong>Software Engineer at Schibsted</strong>. Over the years, I have taken on a variety
-				of roles including <strong>Solution Architect</strong>, <strong>Technical Lead</strong>, and
-				<strong>Software Developer</strong>, delivering robust, scalable, and high-performance
-				solutions across different domains.
+				I'm a seasoned IT professional with over <strong>18 years</strong> of diverse experience in
+				the software industry. Currently, I work as a
+				<strong>Software Engineer at Schibsted</strong>, where I’ve taken on various roles such as
+				<strong>Solution Architect</strong>, <strong>Technical Lead</strong>, and
+				<strong>Software Developer</strong>. Throughout my career, I've delivered robust, scalable,
+				and high-performance solutions across multiple domains.
 			</p>
+
 			<p class="pt-2">
-				My experience spans a wide range of technologies, development methodologies, and system
-				architectures. I’m passionate about <em>clean code</em>, <em>system design</em>, and driving
-				<em>technical excellence</em>. I take pride in being both a hands-on developer and a
-				strategic thinker who connects business needs with effective technical solutions.
+				My expertise spans a wide range of technologies, system architectures, and development
+				methodologies. I'm deeply passionate about <em>clean code</em>, <em>system design</em>, and
+				fostering <em>technical excellence</em>. I take pride in being both a hands-on engineer and
+				a strategic thinker who bridges business goals with smart technical solutions.
 			</p>
+
 			<p class="pt-2">
-				Outside of work, I enjoy learning and playing tennis and staying up to date with the latest
-				in technology. Whether it’s exploring new frameworks, experimenting with tools, or reading
-				about system architecture, <em>continuous learning</em> is at the heart of what I do.
+				Outside of work, I’m an avid learner and tennis enthusiast. I enjoy staying current with the
+				latest in tech—whether that’s exploring new frameworks, experimenting with tools, or reading
+				about architecture and engineering principles.
+				<em>Continuous learning</em> is what drives me.
 			</p>
-			<p class="pt-2">You can have a look at below personnel projects and blogs-</p>
+
+			<p class="pt-2">Feel free to explore my personal projects and blog posts below:</p>
+
 			<div class="mt-6 flex flex-col justify-center gap-4 text-center sm:flex-row">
 				<a href="/projects" class="rounded-full bg-amber-500 px-6 py-2 text-white sm:w-full">
-					View Projects</a
-				>
+					View Projects
+				</a>
 
 				<a
 					href="/blogs"
@@ -69,16 +74,13 @@
 					View Blogs
 				</a>
 
-				<a
-					href="/"
+				<button
 					class="rounded-full bg-amber-500 px-6 py-2 text-white sm:w-full"
-					onclick={(event) => {
-						event.preventDefault();
-						openContact = true;
-					}}
+					on:click={() => (openContact = true)}
 				>
 					Contact Me
-				</a>
+				</button>
+
 				<ContactModal bind:open={openContact} />
 			</div>
 		</section>

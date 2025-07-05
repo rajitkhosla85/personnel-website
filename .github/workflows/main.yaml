@@ -37,11 +37,6 @@ jobs:
       - name: Build SvelteKit static site
         run: npm run build
 
-      - name: Setup AWS CDK
-        uses: aws-actions/setup-cdk@v2
-        with:
-          cdk_version: 2.x
-
       - name: Deploy CDK stack
         run: npx cdk deploy --require-approval never
         env:

@@ -1,3 +1,4 @@
+
 <script lang="ts">
 	let { text, IconComponent } = $props();
 </script>

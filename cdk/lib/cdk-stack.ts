@@ -1,165 +1,73 @@
 import * as cdk from 'aws-cdk-lib';
-import { Duration } from 'aws-cdk-lib';
-import {
-	CacheCookieBehavior,
-	CacheHeaderBehavior,
-	CacheQueryStringBehavior,
-	OriginRequestCookieBehavior,
-	OriginRequestHeaderBehavior,
-	OriginRequestQueryStringBehavior,
-	ViewerProtocolPolicy
-} from 'aws-cdk-lib/aws-cloudfront';
-import { Effect, PolicyStatement } from 'aws-cdk-lib/aws-iam';
-import { FunctionUrlAuthType } from 'aws-cdk-lib/aws-lambda';
-import { BlockPublicAccess, BucketAccessControl } from 'aws-cdk-lib/aws-s3';
 import { Construct } from 'constructs';
+import * as s3 from 'aws-cdk-lib/aws-s3';
+import * as s3deploy from 'aws-cdk-lib/aws-s3-deployment';
+import * as cloudfront from 'aws-cdk-lib/aws-cloudfront';
+import * as origins from 'aws-cdk-lib/aws-cloudfront-origins';
+import * as lambda from 'aws-cdk-lib/aws-lambda';
 import path from 'path';
+import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 
-type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
-
-export type SveltekitSiteProps = {
-	lambdaProps?: PartialBy<
-		Omit<cdk.aws_lambda.FunctionProps, 'code' | 'runtime' | 'handler'>,
-		'architecture' | 'timeout' | 'memorySize'
-	>;
-	cloudfrontProps?: Omit<cdk.aws_cloudfront.DistributionProps, 'defaultBehavior'> & {
-		defaultBehavior: Omit<cdk.aws_cloudfront.BehaviorOptions, 'origin'>;
-	};
-};
-export class CdkStack extends cdk.Stack {
+export class MyPersonnelWebsite extends cdk.Stack {
 	constructor(scope: Construct, id: string, props?: cdk.StackProps) {
 		super(scope, id, props);
 
-		new MyPersonnelWebsite(this, 'personnel-website');
-	}
-}
-class MyPersonnelWebsite extends Construct {
-	public svelteLambda: cdk.aws_lambda.Function;
-	//public cloudfrontDistribution: cdk.aws_cloudfront.Distribution;
-	constructor(scope: Construct, id: string, props?: SveltekitSiteProps) {
-		super(scope, id);
-
-		const svelte = new cdk.aws_lambda.Function(this, `${id}-svelte-lambda`, {
-			runtime: cdk.aws_lambda.Runtime.NODEJS_20_X,
-			memorySize: 1024,
-			timeout: Duration.seconds(10),
-			handler: 'serverless.handler',
-			code: cdk.aws_lambda.Code.fromAsset(path.join(process.cwd(), './build/server')),
-			...props?.lambdaProps
+		// S3 Bucket for static assets
+		const siteBucket = new s3.Bucket(this, 'MyPersonnelSite', {
+			bucketName: 'my-personnel-website-aws',
+			websiteIndexDocument: 'index.html',
+			publicReadAccess: false,
+			removalPolicy: cdk.RemovalPolicy.DESTROY,
+			autoDeleteObjects: true
 		});
-
-		const svelteURL = svelte.addFunctionUrl({ authType: FunctionUrlAuthType.NONE });
-
-		/*const edgeFunction = new cdk.aws_cloudfront.experimental.EdgeFunction(
+		const contactFormBucket = s3.Bucket.fromBucketArn(
 			this,
-			`${id}-svelte-lambda-edge`,
-			{
-				runtime: cdk.aws_lambda.Runtime.NODEJS_20_X,
-				handler: 'router.handler',
-				memorySize: 128,
-				code: cdk.aws_lambda.Code.fromAsset(path.join(process.cwd(), './build/edge'))
-			}
-		);*/
-
-		const staticAssets = new cdk.aws_s3.Bucket(this, `${id}-static-asset-bucket`, {
-			accessControl: BucketAccessControl.BUCKET_OWNER_FULL_CONTROL,
-			removalPolicy: cdk.RemovalPolicy.RETAIN
-		});
-
-		staticAssets.addToResourcePolicy(
-			new PolicyStatement({
-				actions: ['s3:GetObject'],
-				effect: Effect.ALLOW,
-				resources: [staticAssets.arnForObjects('*')],
-				sid: 'PublicReadGetObject',
-				principals: [new cdk.aws_iam.AnyPrincipal()]
-			})
-		);
-		/*
-		const forwardHeaderFunction = new cdk.aws_cloudfront.Function(
-			this,
-			`${id}-forward-header-function`,
-			{
-				code: cdk.aws_cloudfront.FunctionCode.fromInline(`function handler(event) {
-                event.request.headers['x-forwarded-host'] = event.request.headers['host']
-                return event.request
-          }`)
-			}
+			'contactFormBucket',
+			'arn:aws:s3:::rk-personnel-website-contact-form'
 		);
 
-		new cdk.aws_s3_deployment.BucketDeployment(this, `${id}-deploy-prerender`, {
-			sources: [cdk.aws_s3_deployment.Source.asset(path.join(__dirname, './build/prerendered'))],
-			destinationBucket: staticAssets,
-			prune: false,
-			cacheControl: [cdk.aws_s3_deployment.CacheControl.maxAge(Duration.minutes(5))]
+		// Lambda for SSR page
+		const contactFormFunction = new NodejsFunction(this, 'ContactFormLambda', {
+			runtime: lambda.Runtime.NODEJS_20_X,
+			handler: 'handler',
+			entry: path.join(process.cwd(), './lambda-function/index.ts') // SSR lambda folder
 		});
-
-		new cdk.aws_s3_deployment.BucketDeployment(this, `${id}-deploy-assets`, {
-			sources: [cdk.aws_s3_deployment.Source.asset(path.join(__dirname, './build/assets/'))],
-			destinationBucket: staticAssets,
-			prune: false,
-			cacheControl: [
-				cdk.aws_s3_deployment.CacheControl.maxAge(Duration.days(365)),
-				cdk.aws_s3_deployment.CacheControl.immutable()
-			]
-		});
-
-		new cdk.aws_s3_deployment.BucketDeployment(this, `${id}-deploy-static`, {
-			sources: [cdk.aws_s3_deployment.Source.asset(path.join(__dirname, './build/assets/_app'))],
-			destinationBucket: staticAssets,
-			destinationKeyPrefix: '_app',
-			prune: false,
-			cacheControl: [
-				cdk.aws_s3_deployment.CacheControl.maxAge(Duration.days(365)),
-				cdk.aws_s3_deployment.CacheControl.immutable()
-			]
-		});
-
-		const distribution = new cdk.aws_cloudfront.Distribution(this, `${id}-svelte-cloudfront`, {
-			...props?.cloudfrontProps,
-			defaultBehavior: {
-				allowedMethods: cdk.aws_cloudfront.AllowedMethods.ALLOW_ALL,
-				origin: new cdk.aws_cloudfront_origins.HttpOrigin(
-					cdk.Fn.select(2, cdk.Fn.split('/', svelteURL.url)),
-					{
-						customHeaders: {
-							's3-host': staticAssets.virtualHostedUrlForObject().replace('https://', '')
-						}
-					}
-				),
-				viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
-				compress: true,
-				originRequestPolicy: new cdk.aws_cloudfront.OriginRequestPolicy(this, `${id}-svelte-orp`, {
-					cookieBehavior: OriginRequestCookieBehavior.all(),
-					queryStringBehavior: OriginRequestQueryStringBehavior.all(),
-					headerBehavior: OriginRequestHeaderBehavior.allowList('x-forwarded-host')
-				}),
-				cachePolicy: new cdk.aws_cloudfront.CachePolicy(this, `${id}-svelte-cp`, {
-					cookieBehavior: CacheCookieBehavior.all(),
-					queryStringBehavior: CacheQueryStringBehavior.all(),
-					headerBehavior: CacheHeaderBehavior.allowList('x-forwarded-host'),
-					enableAcceptEncodingBrotli: true,
-					enableAcceptEncodingGzip: true
-				}),
-				...props?.cloudfrontProps?.defaultBehavior,
-				edgeLambdas: [
-					{
-						functionVersion: edgeFunction.currentVersion,
-						eventType: cdk.aws_cloudfront.LambdaEdgeEventType.ORIGIN_REQUEST
-					},
-					...(props?.cloudfrontProps?.defaultBehavior?.edgeLambdas || [])
-				],
-				functionAssociations: [
-					{
-						function: forwardHeaderFunction,
-						eventType: cdk.aws_cloudfront.FunctionEventType.VIEWER_REQUEST
-					},
-					...(props?.cloudfrontProps?.defaultBehavior?.functionAssociations || [])
+		const contactFormFunctionUrl = contactFormFunction.addFunctionUrl({
+			authType: lambda.FunctionUrlAuthType.NONE,
+			cors: {
+				// Allow this to be called from websites on https://example.com.
+				// Can also be ['*'] to allow all domain.
+				allowedOrigins: [
+					'https://www.rajitkhosla.com',
+					'http://localhost:5173',
+					'http://localhost:4173'
 				]
-			}
-		});*/
 
-		this.svelteLambda = svelte;
-		//this.cloudfrontDistribution = distribution;
+				// More options are possible here, see the documentation for FunctionUrlCorsOptions
+			}
+		});
+		contactFormBucket.grantReadWrite(contactFormFunction);
+		// Output the Lambda function URL
+		new cdk.CfnOutput(this, 'LambdaUrl', {
+			value: contactFormFunctionUrl.url,
+			description: 'URL for Contact Form Lambda function'
+		});
+		// CloudFront distribution
+		const distribution = new cloudfront.Distribution(this, 'SvelteDistribution', {
+			defaultBehavior: {
+				origin: origins.S3BucketOrigin.withOriginAccessControl(siteBucket),
+				viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS
+			},
+			defaultRootObject: 'index.html'
+		});
+
+		// // Deploy static site to S3
+		new s3deploy.BucketDeployment(this, 'DeployStaticSite', {
+			sources: [s3deploy.Source.asset(path.join(process.cwd(), './build'))], // path to SvelteKit build output
+			destinationBucket: siteBucket,
+			//contentType: 'text/html',
+			distribution,
+			distributionPaths: ['/*']
+		});
 	}
 }

@@ -61,12 +61,10 @@
 		}
 
 		// Proceed to submit the form if valid
+		//const url= new URL(`ocxd3ctjyjcdyzjh5h45zoe27u0hkbir.lambda-url.eu-north-1.on.aws`);
 		try {
-			const response = await fetch('/api/contact', {
+			const response = await fetch("https://ocxd3ctjyjcdyzjh5h45zoe27u0hkbir.lambda-url.eu-north-1.on.aws", {
 				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
 				body: JSON.stringify(formData)
 			});
 

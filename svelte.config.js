@@ -1,5 +1,7 @@
 //import adapter from '@sveltejs/adapter-netlify';  //TODO: Netlify
-import serverless from '@yarbsemaj/adapter-lambda';
+//import serverless from '@yarbsemaj/adapter-lambda';
+import adapter from '@sveltejs/adapter-static'; //TODO: static adapter
+//import { adapter } from 'sveltekit-adapter-aws';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 
 /** @type {import('@sveltejs/kit').Config} */
@@ -16,7 +18,13 @@ const config = {
 			edge: false,
 			split: true
 		})*/
-		adapter: serverless()
+		// adapter: adapter({
+		// 	autoDeploy: true,
+		// 	cdkProjectPath: join(process.cwd(), './cdk/bin/cdk.ts'),
+		// 	stackName: 'mypersonnelwebsite',
+		// 	FQDN: 'rajitkhosla.com'
+		// })
+		adapter: adapter()
 	}
 };
 

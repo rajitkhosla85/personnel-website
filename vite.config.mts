@@ -40,10 +40,3 @@ export default defineConfig({
 		]
 	}
 });
-function AutoImport(arg0: { resolvers: any[] }): import('vite').PluginOption {
-	throw new Error('Function not implemented.');
-}
-
-function IconsResolver(arg0: { prefix: string }): any {
-	throw new Error('Function not implemented.');
-}

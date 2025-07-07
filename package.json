@@ -66,5 +66,8 @@
 	"dependencies": {
 		"aws-cdk-lib": "^2.202.0",
 		"constructs": "^10.4.2"
+	},
+	"optionalDependencies": {
+		"@rollup/rollup-linux-x64-gnu": "*"
 	}
 }

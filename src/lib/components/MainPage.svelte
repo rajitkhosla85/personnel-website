@@ -3,6 +3,7 @@
 	import Certifcations from './Certifcation.svelte';
 	import ContactModal from './ContactModal.svelte';
 	import Skills from './Skills.svelte';
+	import profileImage from '$lib/images/RajitKhosla.png';
 	let openContact = $state(false);
 </script>
 
@@ -30,21 +31,36 @@
 	class="min-h-screen bg-white p-4 font-sans text-gray-900 transition-colors duration-300 sm:p-6 md:p-12 dark:bg-gray-900 dark:text-gray-100"
 >
 	<Animate variant="fade" duration={1} delay={0}>
-		<header class="flex flex-col items-center justify-between gap-4 py-4 sm:flex-row sm:gap-0">
+		<header class="flex flex-col items-center justify-center gap-4 py-4">
+			<img
+				src={profileImage}
+				alt="Rajit Khosla"
+				class="h-40 w-40 rounded-full border-4 border-amber-500 object-cover shadow-md sm:h-48 sm:w-48"
+			/>
 			<h1 class="text-center text-2xl font-extrabold">Rajit Khosla</h1>
 		</header>
 	</Animate>
 	<Animate variant="fade" duration={2} delay={0.2}>
 		<section class="px-4 py-6 text-left text-lg sm:text-xl" aria-labelledby="about-me-heading">
 			<h3 id="about-me-heading" class="pb-2 text-center text-xl font-extrabold">About Me</h3>
-			<p>
-				I'm a seasoned IT professional with over <strong>18 years</strong> of diverse experience in
-				the software industry. Currently, I work as a
-				<strong>Software Engineer at Schibsted</strong>, where I’ve taken on various roles such as
-				<strong>Solution Architect</strong>, <strong>Technical Lead</strong>, and
-				<strong>Software Developer</strong>. Throughout my career, I've delivered robust, scalable,
-				and high-performance solutions across multiple domains.
-			</p>
+			
+<p>
+  I'm a Senior Software Engineer with over <strong>19 years of experience</strong>
+  building scalable software products and platforms across multiple industries.
+  Currently, I work at <strong>Schibsted</strong>, where I contribute to
+  large-scale digital media products and work on
+  <strong>AI integrations, LLM applications and modern software engineering practices</strong>.
+</p>
+
+<p>
+  Throughout my career, I've held roles including
+  <strong>Solutions Architect, Technical Lead and Software Developer</strong>,
+  combining hands-on engineering with
+  <strong>software architecture and technical leadership</strong>.
+  I'm passionate about exploring new technologies, building reliable solutions
+  and applying AI to solve real-world engineering challenges.
+</p>
+
 
 			<p class="pt-2">
 				My expertise spans a wide range of technologies, system architectures, and development
@@ -60,12 +76,14 @@
 				<em>Continuous learning</em> is what drives me.
 			</p>
 
-			<p class="pt-2">Feel free to explore my personal projects and blog posts below:</p>
+			<p class="pt-2">Feel free to explore my blog posts below:</p>
 
 			<div class="mt-6 flex flex-col justify-center gap-4 text-center sm:flex-row">
+				<!-- hidden for now
 				<a href="/projects" class="rounded-full bg-amber-500 px-6 py-2 text-white sm:w-full">
 					View Projects
 				</a>
+				-->
 
 				<a
 					href="/blogs"

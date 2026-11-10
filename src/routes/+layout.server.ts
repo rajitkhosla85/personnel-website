@@ -4,7 +4,7 @@ type Nav = {
 };
 const navs: Array<Nav> = [
 	{ displayName: 'HOME', path: 'home' },
-	{ displayName: 'PROJECTS', path: 'projects' },
+	// { displayName: 'PROJECTS', path: 'projects' }, // hidden for now
 	{ displayName: 'BLOGS', path: 'blogs' }
 ];
 export function load() {

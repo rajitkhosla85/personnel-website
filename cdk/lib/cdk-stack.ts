@@ -53,12 +53,41 @@ export class MyPersonnelWebsite extends cdk.Stack {
 			description: 'URL for Contact Form Lambda function'
 		});
 		// CloudFront distribution
+		// adapter-static emits /projects as projects.html; map extensionless paths to the real S3 key
+		const rewriteFunction = new cloudfront.Function(this, 'HtmlRewriteFunction', {
+			runtime: cloudfront.FunctionRuntime.JS_2_0,
+			code: cloudfront.FunctionCode.fromInline(`
+function handler(event) {
+	var request = event.request;
+	var uri = request.uri;
+	if (uri.length > 1 && uri.charAt(uri.length - 1) === '/') {
+		uri = uri.slice(0, -1);
+	}
+	if (uri === '/') {
+		request.uri = '/index.html';
+	} else if (uri.indexOf('.', uri.lastIndexOf('/')) === -1) {
+		request.uri = uri + '.html';
+	}
+	return request;
+}`)
+		});
 		const distribution = new cloudfront.Distribution(this, 'SvelteDistribution', {
 			defaultBehavior: {
 				origin: origins.S3BucketOrigin.withOriginAccessControl(siteBucket),
-				viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS
+				viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+				functionAssociations: [
+					{
+						function: rewriteFunction,
+						eventType: cloudfront.FunctionEventType.VIEWER_REQUEST
+					}
+				]
 			},
-			defaultRootObject: 'index.html'
+			defaultRootObject: 'index.html',
+			// unknown pages: show the SvelteKit error page instead of raw S3 XML
+			errorResponses: [
+				{ httpStatus: 403, responseHttpStatus: 404, responsePagePath: '/404.html' },
+				{ httpStatus: 404, responseHttpStatus: 404, responsePagePath: '/404.html' }
+			]
 		});
 
 		// // Deploy static site to S3

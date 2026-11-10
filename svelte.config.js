@@ -24,7 +24,7 @@ const config = {
 		// 	stackName: 'mypersonnelwebsite',
 		// 	FQDN: 'rajitkhosla.com'
 		// })
-		adapter: adapter()
+		adapter: adapter({ fallback: '404.html' })
 	}
 };
 

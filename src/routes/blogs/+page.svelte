@@ -9,13 +9,20 @@
 		BlogBodyWrapper
 	} from 'flowbite-svelte-blocks';
 	import { VideoCameraSolid, ArrowRightOutline, NewspaperSolid } from 'flowbite-svelte-icons';
+	import type { Blog } from '$lib/types/types';
 	const { data } = $props();
+	const blogHref = (blog: Blog) => blog.externalUrl ?? `/blog/${blog.id}`;
+	const blogLinkAttrs = (blog: Blog) =>
+		blog.externalUrl ? { target: '_blank', rel: 'noopener' } : {};
 	const calculateDateDifferenceFromISODate = (isoDate: string) => {
 		const date = new Date(isoDate).getTime();
 		const now = new Date().getTime();
 		const diffTime = Math.abs(now - date);
-		const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-		return diffDays > 1 ? `${diffDays} Days ago` : `${diffDays} Day ago`;
+		const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+		const plural = (n: number, unit: string) => `${n} ${unit}${n === 1 ? '' : 's'} ago`;
+		if (diffDays < 30) return plural(diffDays, 'Day');
+		if (diffDays < 365) return plural(Math.floor(diffDays / 30), 'Month');
+		return plural(Math.floor(diffDays / 365), 'Year');
 	};
 </script>
 
@@ -36,16 +43,18 @@
 					<span class="text-sm">{calculateDateDifferenceFromISODate(blog.isoDate)}</span>
 				</ArticleHead>
 				<ArticleBody>
-					{#snippet h2()}<a href="/blog/{blog.id}">{blog.title}</a>{/snippet}
-					{#snippet paragraph()}
-						<p class="mb-5 font-light text-gray-500 dark:text-gray-400">
-							{blog.lead}
-						</p>
-					{/snippet}
+					{#snippet h2()}<a
+							href={blogHref(blog)}
+							{...blogLinkAttrs(blog)}>{blog.title}</a
+						>{/snippet}
+					<p class="mb-5 font-light text-gray-500 dark:text-gray-400">
+						{blog.lead}
+					</p>
 				</ArticleBody>
 				<ArticleAuthor>
 					<a
-						href="/blog/{blog.id}"
+						href={blogHref(blog)}
+						{...blogLinkAttrs(blog)}
 						class="text-primary-600 dark:text-primary-500 inline-flex items-center font-medium hover:underline"
 					>
 						Read more

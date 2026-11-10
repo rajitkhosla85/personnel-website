@@ -4,6 +4,7 @@ import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as s3deploy from 'aws-cdk-lib/aws-s3-deployment';
 import * as cloudfront from 'aws-cdk-lib/aws-cloudfront';
 import * as origins from 'aws-cdk-lib/aws-cloudfront-origins';
+import * as acm from 'aws-cdk-lib/aws-certificatemanager';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import path from 'path';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
@@ -82,6 +83,12 @@ function handler(event) {
 					}
 				]
 			},
+			domainNames: ['rajitkhosla.com', 'www.rajitkhosla.com'],
+			certificate: acm.Certificate.fromCertificateArn(
+				this,
+				'SiteCertificate',
+				'arn:aws:acm:us-east-1:706586082849:certificate/ebe16c76-0a74-4745-a66c-2bcbb6cac998'
+			),
 			defaultRootObject: 'index.html',
 			// unknown pages: show the SvelteKit error page instead of raw S3 XML
 			errorResponses: [

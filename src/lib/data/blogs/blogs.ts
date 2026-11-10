@@ -8,7 +8,7 @@ const author: Author = {
 	title: 'Senior Software Engineer'
 };
 
-export const Blogs: BlogsType = [
+const localBlogs: BlogsType = [
 	{
 		id: 'how-to-write-serverless-static-personnel-website',
 		title: 'How to write serverless static personnal website using Sveltekit and Netlify',
@@ -103,3 +103,52 @@ body: JSON.stringify({ success: true, message: "Thanks for reaching out!" })
 		`
 	}
 ];
+
+const AURAGILE_FEED_URL = 'https://auragile.com/rss.xml';
+
+const decodeXml = (s: string) =>
+	s
+		.replace(/&lt;/g, '<')
+		.replace(/&gt;/g, '>')
+		.replace(/&quot;/g, '"')
+		.replace(/&apos;/g, "'")
+		.replace(/&amp;/g, '&');
+
+const tagText = (xml: string, tag: string) =>
+	decodeXml(xml.match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)</${tag}>`))?.[1].trim() ?? '');
+
+const formatDate = (isoDate: string) =>
+	new Date(`${isoDate}T00:00:00Z`)
+		.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' })
+		.replace(/^(\w+)/, '$1.');
+
+// Posts published on auragile.com (RSS 2.0); skipped (not fatal) if the feed is unreachable.
+const getAuragileBlogs = async (fetchFn: typeof fetch): Promise<BlogsType> => {
+	try {
+		const res = await fetchFn(AURAGILE_FEED_URL);
+		if (!res.ok) throw new Error(`HTTP ${res.status}`);
+		const xml = await res.text();
+		return [...xml.matchAll(/<item>([\s\S]*?)<\/item>/g)].map(([, item]) => {
+			const url = tagText(item, 'link');
+			const isoDate = new Date(tagText(item, 'pubDate')).toISOString().slice(0, 10);
+			return {
+				id: url.split('/').filter(Boolean).pop() ?? url,
+				title: tagText(item, 'title'),
+				lead: tagText(item, 'description'),
+				author: { ...author },
+				date: formatDate(isoDate),
+				isoDate,
+				content: '',
+				externalUrl: url
+			};
+		});
+	} catch (error) {
+		console.error('Could not load Auragile blogs:', error);
+		return [];
+	}
+};
+
+export const getBlogs = async (fetchFn: typeof fetch = fetch): Promise<BlogsType> =>
+	[...localBlogs, ...(await getAuragileBlogs(fetchFn))].sort((a, b) =>
+		b.isoDate.localeCompare(a.isoDate)
+	);
